@@ -1,0 +1,243 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+
+\definecolor{destaque}{RGB}{0, 90, 160}
+\definecolor{cinza}{RGB}{245, 245, 245}
+
+\newmdenv[
+  backgroundcolor=cinza,
+  linecolor=destaque,
+  linewidth=1.5pt,
+  roundcorner=4pt,
+  innertopmargin=10pt,
+  innerbottommargin=10pt
+]{caixadestaque}
+
+\title{
+  \textbf{\textcolor{destaque}{O Problema do XOR}}\\[0.4em]
+  \large Demonstração Completa via Equação Normal
+}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+% ─────────────────────────────────────────────
+\section*{1. Configuração do Problema}
+
+O dataset XOR é composto por quatro amostras:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$x_1$ & $x_2$ & $y$ \\
+\midrule
+0 & 0 & 0 \\
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent\textbf{Modelo linear:}
+\[
+  \hat{y} = x^T w + b = w_1 x_1 + w_2 x_2 + b
+\]
+
+\noindent\textbf{Função de perda (MSE):}
+\[
+  \mathcal{L} = \frac{1}{4}\sum_{i=1}^{4}\left(\hat{y}_i - y_i\right)^2
+\]
+
+% ─────────────────────────────────────────────
+\section*{2. Formulação Matricial}
+
+Absorvemos o viés $b$ na matriz de design adicionando uma coluna de 1s, de modo que o vetor de parâmetros seja $\theta = [b,\, w_1,\, w_2]^T$:
+
+\[
+  X = \begin{bmatrix}
+    1 & 0 & 0 \\
+    1 & 0 & 1 \\
+    1 & 1 & 0 \\
+    1 & 1 & 1
+  \end{bmatrix},
+  \qquad
+  y = \begin{bmatrix} 0 \\ 1 \\ 1 \\ 0 \end{bmatrix},
+  \qquad
+  \theta = \begin{bmatrix} b \\ w_1 \\ w_2 \end{bmatrix}
+\]
+
+\noindent A \textbf{equação normal} que minimiza o MSE é:
+\[
+  X^T X\, \theta = X^T y
+\]
+
+% ─────────────────────────────────────────────
+\section*{3. Cálculo de $X^T X$}
+
+\[
+  X^T = \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    0 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 1
+  \end{bmatrix}
+\]
+
+Cada entrada $(i,j)$ de $X^T X$ é o produto interno da $i$-ésima linha de $X^T$ com a $j$-ésima coluna de $X$:
+
+\[
+  X^T X =
+  \begin{bmatrix}
+    1{+}1{+}1{+}1 & 0{+}0{+}1{+}1 & 0{+}1{+}0{+}1 \\
+    0{+}0{+}1{+}1 & 0{+}0{+}1{+}1 & 0{+}0{+}0{+}1 \\
+    0{+}1{+}0{+}1 & 0{+}0{+}0{+}1 & 0{+}1{+}0{+}1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    4 & 2 & 2 \\
+    2 & 2 & 1 \\
+    2 & 1 & 2
+  \end{bmatrix}
+\]
+
+% ─────────────────────────────────────────────
+\section*{4. Cálculo de $X^T y$}
+
+\[
+  X^T y =
+  \begin{bmatrix}
+    1{\cdot}0 + 1{\cdot}1 + 1{\cdot}1 + 1{\cdot}0 \\
+    0{\cdot}0 + 0{\cdot}1 + 1{\cdot}1 + 1{\cdot}0 \\
+    0{\cdot}0 + 1{\cdot}1 + 0{\cdot}1 + 1{\cdot}0
+  \end{bmatrix}
+  =
+  \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}
+\]
+
+% ─────────────────────────────────────────────
+\section*{5. Sistema Linear}
+
+Substituindo na equação normal:
+
+\[
+  \begin{bmatrix}
+    4 & 2 & 2 \\
+    2 & 2 & 1 \\
+    2 & 1 & 2
+  \end{bmatrix}
+  \begin{bmatrix} b \\ w_1 \\ w_2 \end{bmatrix}
+  =
+  \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}
+\]
+
+\noindent Expandindo linha a linha:
+
+\begin{align}
+  4b + 2w_1 + 2w_2 &= 2 \tag{I}  \\
+  2b + 2w_1 +  w_2 &= 1 \tag{II} \\
+  2b +  w_1 + 2w_2 &= 1 \tag{III}
+\end{align}
+
+% ─────────────────────────────────────────────
+\section*{6. Resolução}
+
+\subsection*{Passo 1 — Subtrair (III) de (II)}
+
+\[
+  (\text{II}) - (\text{III}):\quad
+  (2w_1 + w_2) - (w_1 + 2w_2) = 0
+  \;\Longrightarrow\;
+  w_1 - w_2 = 0
+  \;\Longrightarrow\;
+  \boxed{w_1 = w_2}
+\]
+
+\noindent Isso reflete a \emph{simetria do XOR}: as duas features são perfeitamente intercambiáveis.
+
+\subsection*{Passo 2 — Substituir $w_1 = w_2 \equiv w$ em (I)}
+
+\[
+  4b + 2w + 2w = 2
+  \;\Longrightarrow\;
+  4b + 4w = 2
+  \;\Longrightarrow\;
+  b + w = \tfrac{1}{2}
+  \;\Longrightarrow\;
+  b = \tfrac{1}{2} - w \tag{IV}
+\]
+
+\subsection*{Passo 3 — Substituir $w_1 = w_2 = w$ e (IV) em (II)}
+
+\[
+  2\!\left(\tfrac{1}{2} - w\right) + 2w + w = 1
+\]
+\[
+  1 - 2w + 2w + w = 1
+\]
+\[
+  1 + w = 1
+\]
+\[
+  \boxed{w = 0}
+\]
+
+\subsection*{Passo 4 — Recuperar $b$}
+
+\[
+  b = \tfrac{1}{2} - 0 = \boxed{\tfrac{1}{2}}
+\]
+
+% ─────────────────────────────────────────────
+\section*{7. Solução Final}
+
+\begin{caixadestaque}
+\[
+  w_1 = 0, \qquad w_2 = 0, \qquad b = \frac{1}{2}
+\]
+\[
+  \hat{y}(x) = \frac{1}{2} \quad \text{para qualquer entrada } x
+\]
+\end{caixadestaque}
+
+O modelo colapsa para a previsão constante igual à média dos rótulos:
+\[
+  \bar{y} = \frac{0 + 1 + 1 + 0}{4} = \frac{1}{2}
+\]
+
+O MSE mínimo resultante é:
+\[
+  \mathcal{L}^* = \frac{1}{4}\left[
+    \left(\tfrac{1}{2}\right)^2 +
+    \left(\tfrac{1}{2}\right)^2 +
+    \left(\tfrac{1}{2}\right)^2 +
+    \left(\tfrac{1}{2}\right)^2
+  \right] = \frac{1}{4}
+\]
+
+% ─────────────────────────────────────────────
+\section*{8. Interpretação}
+
+Este resultado não é um acidente numérico — é a \textbf{prova formal de que o XOR não é linearmente separável}. Qualquer gradiente que $w_1$ ou $w_2$ acumulariam a partir de um par de pontos é exatamente cancelado pelo par simétrico. A solução ótima para um modelo linear ignora completamente as features e prevê a média da distribuição.
+
+O MSE de $1/4$ é equivalente ao de um classificador que adivinha aleatoriamente com probabilidade $1/2$ — a melhor hipótese linear não supera o \emph{baseline} trivial.
+
+A saída desta limitação requer \textbf{não-linearidade}: uma rede neural com pelo menos uma camada oculta (e função de ativação não-linear) é capaz de aprender o XOR exatamente.
+
+\end{document}
