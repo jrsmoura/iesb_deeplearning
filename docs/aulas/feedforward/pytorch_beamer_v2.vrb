@@ -1,0 +1,29 @@
+\frametitle{Precisao Mista (Automatic Mixed Precision)}
+\begin{lstlisting}
+from torch.cuda.amp import autocast, GradScaler
+
+scaler = GradScaler()
+
+for x, y in loader:
+    x, y = x.to(device), y.to(device)
+
+    # autocast: usa float16 onde e seguro, float32 onde necessario
+    with autocast():
+        pred = model(x)
+        loss = criterio(pred, y)
+
+    optimizer.zero_grad()
+
+    # scaler: evita underflow de gradientes em float16
+    scaler.scale(loss).backward()
+    scaler.step(optimizer)
+    scaler.update()
+\end{lstlisting}
+
+\begin{block}{Benefícios da Precisão Mista}
+  \begin{itemize}
+    \item $\approx 2\times$ mais rápido em GPUs com Tensor Cores (Ampere, Ada)
+    \item Reduz uso de VRAM pela metade para os activations
+    \item Permite batches maiores
+  \end{itemize}
+\end{block}

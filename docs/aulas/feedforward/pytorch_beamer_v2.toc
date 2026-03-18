@@ -1,0 +1,17 @@
+\beamer@sectionintoc {1}{Aula 1 — Instalação e Ambiente}{3}{0}{1}
+\beamer@sectionintoc {2}{Aula 2 — Tensores}{8}{0}{2}
+\beamer@sectionintoc {3}{Aula 3 — Autograd}{13}{0}{3}
+\beamer@sectionintoc {4}{Aula 4 — Módulos e Camadas}{16}{0}{4}
+\beamer@sectionintoc {5}{Aula 5 — Dados: Dataset e DataLoader}{22}{0}{5}
+\beamer@sectionintoc {6}{Aula 6 — Funções de Perda e Otimizadores}{25}{0}{6}
+\beamer@sectionintoc {7}{Aula 7 — O Loop de Treinamento}{29}{0}{7}
+\beamer@sectionintoc {8}{Aula 8 — Padrões de Arquitetura}{32}{0}{8}
+\beamer@sectionintoc {9}{Aula 9 — Perceptron}{34}{0}{9}
+\beamer@sectionintoc {10}{Aula 10 — MLP}{37}{0}{10}
+\beamer@sectionintoc {11}{Aula 11 — Redes Convolucionais (CNN)}{41}{0}{11}
+\beamer@sectionintoc {12}{Aula 12 — Redes Recorrentes (RNN)}{44}{0}{12}
+\beamer@sectionintoc {13}{Aula 13 — GANs: Fundamentos}{48}{0}{13}
+\beamer@sectionintoc {14}{Aula 14 — DCGAN e Boas Praticas}{52}{0}{14}
+\beamer@sectionintoc {15}{Aula 15 — Reinforcement Learning}{56}{0}{15}
+\beamer@sectionintoc {16}{Aula 16 — Diagnostico e Ferramentas}{62}{0}{16}
+\beamer@sectionintoc {17}{Referência Rápida}{65}{0}{17}

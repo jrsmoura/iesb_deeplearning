@@ -1,0 +1,61 @@
+\frametitle{MNIST — Resultados e Visualização}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\begin{block}{Resultados Esperados}
+\small
+\begin{tabular}{lcc}
+\toprule
+Configuração & Acurácia Teste & Épocas \\
+\midrule
+MLP 784-512-256-128-10 & $\sim$98.2\% & 15 \\
++ Dropout(0.3) & $\sim$98.4\% & 15 \\
++ Weight Decay & $\sim$98.5\% & 15 \\
++ LR Scheduler & $\sim$98.6\% & 15 \\
+\bottomrule
+\end{tabular}
+\end{block}
+\begin{lstlisting}
+# Visualizar predicoes
+import matplotlib.pyplot as plt
+
+model.eval()
+X_sample, y_sample = next(iter(test_loader))
+with torch.no_grad():
+    preds = model(X_sample.to(device)
+            ).argmax(1).cpu()
+
+fig, axes = plt.subplots(2, 5, figsize=(10,4))
+for ax, img, pred, true in zip(
+        axes.flat, X_sample[:10],
+        preds[:10], y_sample[:10]):
+    ax.imshow(img.squeeze(), cmap='gray')
+    color = 'g' if pred==true else 'r'
+    ax.set_title(f"Pred:{pred}", color=color)
+    ax.axis('off')
+plt.tight_layout()
+plt.savefig('mnist_predictions.png')
+\end{lstlisting}
+\column{0.42\textwidth}
+\begin{tikzpicture}[scale=0.78]
+\begin{axis}[xlabel={Época},ylabel={Acurácia (\%)},
+  width=6cm,height=4.5cm,
+  xmin=1,xmax=15,ymin=95,ymax=100,
+  grid=major,grid style={gray!30},
+  tick label style={font=\tiny},
+  label style={font=\scriptsize},
+  legend style={font=\tiny,at={(0.02,0.98)},anchor=north west}]
+\addplot[deepblue,thick,mark=*,mark size=1.5pt]
+  coordinates {(1,97.1)(3,97.8)(5,98.1)(7,98.3)
+               (9,98.4)(11,98.5)(13,98.5)(15,98.6)};
+\addlegendentry{Validação}
+\addplot[deepred,thick,mark=square*,mark size=1.5pt,dashed]
+  coordinates {(1,96.5)(3,97.5)(5,97.9)(7,98.2)
+               (9,98.4)(11,98.6)(13,98.7)(15,98.8)};
+\addlegendentry{Treino}
+\end{axis}
+\end{tikzpicture}
+\begin{alertblock}{Referência MNIST}
+\small
+Estado da arte: $>99.7\%$ (CNN). MLPs atingem $\sim$98.5\% — suficiente para entender os fundamentos sem convolução.
+\end{alertblock}
+\end{columns}
