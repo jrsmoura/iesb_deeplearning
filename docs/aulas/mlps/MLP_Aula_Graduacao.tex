@@ -2,7 +2,7 @@
 %  MLP — Multilayer Perceptron
 %  Aula de Graduação — Baseada em Goodfellow et al. (2016)
 %============================================================
-\documentclass[8pt, aspectratio=169,10pt]{beamer}
+\documentclass[7pt, aspectratio=169,10pt]{beamer}
 
 %------------------------------------------------------------
 % Tema e Cores
@@ -690,39 +690,23 @@ A função de perda emerge naturalmente da escolha do modelo probabilístico!
 \[
 \mathcal{L}_{\text{BCE}} = -\frac{1}{N}\sum_i \bigl[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)\bigr]
 \]
-\small
 \begin{itemize}
   \item Para classificação binária com saída sigmoid
   \item Deriva de $p(y|\bx) = \text{Bernoulli}(\hat{y})$
   \item Gradiente: $\hat{y} - y$ (elegante com sigmoid!)
 \end{itemize}
 \end{block}
-
+\column{0.48\textwidth}
 \begin{block}{Categorical Cross-Entropy (CCE)}
 \[
 \mathcal{L}_{\text{CCE}} = -\frac{1}{N}\sum_i \sum_{k=1}^K y_{i,k}\log\hat{y}_{i,k}
 \]
-\small
 \begin{itemize}
   \item Para $K$ classes com saída softmax
   \item Com \textit{one-hot}: $\mathcal{L} = -\frac{1}{N}\sum_i \log\hat{y}_{i,c_i}$
 \end{itemize}
 \end{block}
-\column{0.48\textwidth}
-\begin{block}{Hinge Loss (SVM)}
-\[
-\mathcal{L}_{\text{hinge}} = \frac{1}{N}\sum_i \max(0,\, 1-y_i\hat{y}_i)
-\]
-\small $y_i \in \{-1,+1\}$. Não probabilístico; usado em SVMs.
-\end{block}
-
-\begin{block}{Focal Loss (para desbalanceamento)}
-\[
-\mathcal{L}_{\text{focal}} = -\frac{1}{N}\sum_i (1-\hat{y}_{i,c_i})^\gamma \log\hat{y}_{i,c_i}
-\]
-\small $\gamma>0$ reduz peso de exemplos fáceis (Lin et al., 2017).
-\end{block}
-
+\end{columns}
 \begin{alertblock}{Regra Geral}
 \small
 \begin{tabular}{ll}
@@ -731,7 +715,6 @@ Classif.\ binária & BCE + sigmoid \\
 Classif.\ multi & CCE + softmax \\
 \end{tabular}
 \end{alertblock}
-\end{columns}
 \end{frame}
 
 %============================================================
@@ -853,11 +836,11 @@ Para a camada $\ell$: $\bz^{(\ell)} = \bW^{(\ell)}\bh^{(\ell-1)}+\bb^{(\ell)}$, 
 \column{0.47\textwidth}
 \begin{exampleblock}{Interpretação de $\odot$}
 \small
-$\odot$ denota produto elemento a elemento (Hadamard). A multiplicação por $f'(\bz^{(\ell)})$ é a \textbf{gate} do gradiente: ativações saturadas ``bloqueiam'' o gradiente.
+$\odot$ denota produto elemento a elemento (Hadamard). A multiplicação por $f'(\bz^{(\ell)})$ é a \textbf{gate} do gradiente.
 \end{exampleblock}
 \begin{alertblock}{Vanishing Gradient}
 \small
-Se $\max |f'| < 1$ (sigmoid: $\leq 0.25$), então $\|\bm{\delta}^{(\ell)}\|$ decresce exponencialmente com a profundidade $L-\ell$.\\
+Se $\max |f'| < 1$ (sigmoid: $\leq 0.25$), então $\|\bm{\delta}^{(\ell)}\|$ decresce exponencialmente com a profundidade $L-\ell$.
 $\Rightarrow$ \textbf{ReLU} resolve em grande parte este problema.
 \end{alertblock}
 \end{columns}
@@ -901,8 +884,6 @@ $v \leftarrow 3 - 0.1(-2) = 3.2$
 %============================================================
 
 \begin{frame}{Penalidades de Norma de Parâmetros}
-\begin{columns}[T]
-\column{0.48\textwidth}
 \begin{block}{Regularização $\ell_2$ (Weight Decay)}
 \[
 \tilde{\mathcal{L}}(\btheta) = \mathcal{L}(\btheta) + \frac{\lambda}{2}\|\btheta\|_2^2
@@ -916,7 +897,10 @@ $v \leftarrow 3 - 0.1(-2) = 3.2$
   \item SGD com $\ell_2$: ``\textit{weight decay}''
 \end{itemize}
 \end{block}
-\begin{block}{Regularização $\ell_1$ (Lasso)}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Regularização $\ell_1$ (Lasso)}
 \[
 \tilde{\mathcal{L}}(\btheta) = \mathcal{L}(\btheta) + \lambda\|\btheta\|_1
 \]
@@ -927,7 +911,6 @@ $v \leftarrow 3 - 0.1(-2) = 3.2$
   \item Menos usado em deep learning
 \end{itemize}
 \end{block}
-\column{0.48\textwidth}
 \begin{tikzpicture}[scale=0.80]
 \begin{axis}[xlabel={$\theta$},ylabel={Penalidade},
   width=6.5cm,height=4.0cm,
@@ -949,7 +932,7 @@ $v \leftarrow 3 - 0.1(-2) = 3.2$
 \small
 Combinação: $\lambda_1\|\btheta\|_1 + \lambda_2\|\btheta\|_2^2$. Tem benefícios de ambas as penalidades.
 \end{alertblock}
-\end{columns}
+
 \end{frame}
 
 %------------------------------------------------------------

@@ -48,9 +48,10 @@ def train(model, X, y, epochs=100, lr=0.01):
         optimizer.step()
 
         if epoch % 10 == 0:
-            print(f'Época {epoch} | Loss: {loss.item():.4f}')
+            print(f"Época {epoch} | Loss: {loss.item():.4f}")
 
 
+# github.com/jrsmoura/iesb_deeplearning
 # ============================
 # Exemplo de uso
 # ============================

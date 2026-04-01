@@ -6,5 +6,5 @@
 \beamer@sectionintoc {6}{Funções de Perda}{13}{0}{6}
 \beamer@sectionintoc {7}{Backpropagation e Grafos Computacionais}{16}{0}{7}
 \beamer@sectionintoc {8}{Regularização}{20}{0}{8}
-\beamer@sectionintoc {9}{Introdução ao PyTorch}{23}{0}{9}
-\beamer@sectionintoc {10}{Implementação: MNIST com PyTorch}{25}{0}{10}
+\beamer@sectionintoc {9}{Introdução ao PyTorch}{24}{0}{9}
+\beamer@sectionintoc {10}{Implementação: MNIST com PyTorch}{26}{0}{10}
